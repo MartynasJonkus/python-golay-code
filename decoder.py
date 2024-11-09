@@ -1,61 +1,47 @@
-def calculate_syndrome(received, H):
-    """
-    Calculate the syndrome for a received 23-bit codeword.
+from math_functions import multiply_binary_matrices, add_binary_vectors, get_vector_weight as weight
+from matrices import get_H, I, B
 
-    Parameters:
-    received (list of int): The received 23-bit codeword.
-    H (list of list of int): The 11x23 parity-check matrix.
-
-    Returns:
-    list of int: The 11-bit syndrome vector.
-    """
-    syndrome = [0] * 11  # Initialize an 11-bit syndrome
-    for i in range(11):  # Each bit in the syndrome
-        for j in range(23):
-            syndrome[i] ^= received[j] * H[i][j]  # XOR for GF(2) addition
-    return syndrome
-
-def decode_codeword(received, G, H, error_patterns):
-    """
-    Decode a received 23-bit codeword using error correction for the Golay code.
-
-    Parameters:
-    received (list of int): The received 23-bit codeword.
-    G (list of list of int): The 12x23 generator matrix.
-    H (list of list of int): The 11x23 parity-check matrix.
-    error_patterns (dict): Precomputed syndrome-to-error patterns.
-
-    Returns:
-    list of int: The corrected 12-bit original message if successful.
-    """
-    # Step 1: Calculate the syndrome of the received codeword
-    syndrome = calculate_syndrome(received, H)
-
-    # Step 2: Check if syndrome corresponds to a known error pattern
-    syndrome_tuple = tuple(syndrome)
-    if syndrome_tuple in error_patterns:
-        error_pattern = error_patterns[syndrome_tuple]
-        
-        # Correct the received codeword by XORing with the error pattern
-        corrected_codeword = [
-            received[i] ^ error_pattern[i] for i in range(23)
-        ]
+def decode_word(received_string):
+    w = [int(bit) for bit in received_string]
+    
+    # Step 0: Form w0 or w1, whichever has odd weight
+    if weight(w) % 2 == 0:
+        w.append(1)
     else:
-        # If no error pattern matches, assume no errors
-        corrected_codeword = received
+        w.append(0)
+    
+    # Step 1: Compute the syndrome s = w * H
+    H = get_H()
+    s = multiply_binary_matrices([w], H)[0]
 
-    # Step 3: Extract the original 12-bit message (first 12 bits of corrected codeword)
-    original_message = corrected_codeword[:12]
+    u = find_u(s)
+    v = add_binary_vectors(w, u)
 
-    return original_message
+    message_bits = v[:12]
+    return ''.join(str(bit) for bit in message_bits)
 
-# Example of usage:
-# Define or precompute the parity-check matrix H, generator matrix G, and error patterns
-# Assuming H, G, and error_patterns are predefined based on Golay code properties.
+def find_u(s):
+    # Step 2: Check if weight of s <= 3
+    if weight(s) <= 3:
+        return s + [0] * 12
 
-# Simulate a received codeword with some errors (example)
-received_codeword = [1, 0, 1, 1, 0, 1, 0, 1, 1, 0, 1, 0, 1, 1, 0, 0, 1, 0, 1, 1, 1, 0, 0]
+    # Step 3: Check if weight of s + Bi <= 2
+    for i, Bi in enumerate(B):
+        if weight(add_binary_vectors(s, Bi)) <= 2:
+            return add_binary_vectors(s, Bi) + I[i]
 
-# Decode the received codeword
-original_message = decode_codeword(received_codeword, G, H, error_patterns)
-print("Decoded 12-bit original message:", original_message)
+    # Step 4: Compute the second syndrome sB = s * B
+    sB = multiply_binary_matrices([s], B)[0]
+
+    # Step 5: Check if weight of sB <= 3
+    if weight(sB) <= 3:
+        return [0] * 12 + sB
+
+    # Step 6: Check if weight of sB + Bi <= 2
+    for i, Bi in enumerate(B):
+        if weight(add_binary_vectors(sB, Bi)) <= 2:
+            return I[i] + add_binary_vectors(sB, Bi)
+
+    # Step 7: If no u is found, request retransmission
+    print("No valid u found. Requesting retransmission.")
+    return None

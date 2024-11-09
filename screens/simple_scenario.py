@@ -2,6 +2,7 @@ import tkinter as tk
 from tkinter import ttk, messagebox
 from distortion_channel import distortion_channel
 from encoder import encode_word
+from decoder import decode_word 
 
 class MainScreen(ttk.Frame):
     def __init__(self, parent, *args, **kwargs):
@@ -28,6 +29,10 @@ class MainScreen(ttk.Frame):
         # Label to display the distorted output
         self.result_label = tk.Label(self, text="Distorted Output: ", font=("Arial", 12))
         self.result_label.pack(pady=10)
+
+        # Label to display the decoded message
+        self.decoded_label = tk.Label(self, text="Decoded Output: ", font=("Arial", 12))
+        self.decoded_label.pack(pady=10)
 
     def simulate_corruption(self):
         binary_input = self.binary_input_entry.get()
@@ -56,6 +61,9 @@ class MainScreen(ttk.Frame):
         # Simulate the distortion on the encoded message
         distorted_output = distortion_channel(encoded_message, corruption_prob)
 
+        # Decode the distorted message
+        decoded_message = decode_word(distorted_output)  # Decode the received (distorted) message
 
         # Display the result
         self.result_label.config(text=f"Encoded: {encoded_message}\nDistorted Output: {distorted_output}")
+        self.decoded_label.config(text=f"Decoded Output: {decoded_message}")

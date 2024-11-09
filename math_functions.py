@@ -1,24 +1,25 @@
-def concatenate_matrices(A, B):
-    """
-    Concatenate two matrices A and B horizontally.
+def concatenate_matrices(A, B, axis=1):
+    if axis == 1:
+        if len(A) != len(B):
+            raise ValueError("Matrices must have the same number of rows to concatenate horizontally.")
 
-    Parameters:
-    A (list of list of int): The left matrix (e.g., identity matrix).
-    B (list of list of int): The right matrix to be concatenated.
+        concatenated_matrix = []
+        for i in range(len(A)):
+            row_a = A[i]
+            row_b = B[i]
+            concatenated_matrix.append(row_a + row_b)
+    
+    elif axis == 0:
+        if len(A[0]) != len(B[0]):
+            raise ValueError("Matrices must have the same number of columns for vertical concatenation.")
+        
+        concatenated_matrix = A + B
 
-    Returns:
-    list of list of int: The resulting matrix after horizontal concatenation.
-    """
-    if len(A) != len(B):
-        raise ValueError("Matrices must have the same number of rows to concatenate.")
-
-    concatenated_matrix = []
-    for i in range(len(A)):
-        row_a = A[i]
-        row_b = B[i]
-        concatenated_matrix.append(row_a + row_b)
+    else:
+        raise ValueError("Axis must be 0 (vertical) or 1 (horizontal).")
 
     return concatenated_matrix
+
 
 def multiply_binary_matrices(A, B):
     if len(A[0]) != len(B):
@@ -32,3 +33,19 @@ def multiply_binary_matrices(A, B):
                 result[i][j] ^= A[i][k] & B[k][j]  # XOR instead of addition, AND for multiplication
 
     return result
+
+
+def add_binary_vectors(A, B):
+    if len(A) != len(B):
+        raise ValueError("Length of vector A must be equal to the length of vector B")
+    
+    result = []
+    
+    for i in range(len(A)):
+        result.append(A[i] ^ B[i])
+    
+    return result
+
+
+def get_vector_weight(vector):
+    return sum(vector)
