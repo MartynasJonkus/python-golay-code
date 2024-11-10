@@ -56,10 +56,6 @@ class ImageScreen(ttk.Frame):
         # Variables to store image data
         self.image_path = None
         self.original_image = None
-        self.encoded_pixel_chunks = None
-        self.unencoded_pixel_chunks = None
-        self.padding_bits = None
-        self.bmp_header_info = None
 
     def upload_image(self):
         self.image_path = filedialog.askopenfilename(filetypes=[("BMP files", "*.bmp")])
@@ -68,10 +64,8 @@ class ImageScreen(ttk.Frame):
             self.original_image.thumbnail((200, 200))
             self.display_image(self.original_image, self.original_image_label)
 
-            # Encode the image
-            self.unencoded_pixel_chunks, self.encoded_pixel_chunks, self.padding_bits, self.bmp_header_info = encode_image(self.image_path)
-
     def display_image(self, img, label):
+        img.thumbnail((400, 400))
         img_tk = ImageTk.PhotoImage(img)
         label.config(image=img_tk)
         label.image = img_tk

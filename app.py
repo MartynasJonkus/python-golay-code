@@ -8,12 +8,12 @@ class ChannelApp:
     def __init__(self, root):
         self.root = root
         self.root.title("Golay code simulation")
-        self.root.geometry("800x500")  # Set the initial window size
+        self.root.geometry("800x600")  # Set the initial window size
         self.root.resizable(False, False)  # Make the window size fixed (not resizable)
 
         # Calculate the position to center the window on the screen
         window_width = 800
-        window_height = 500
+        window_height = 700
         screen_width = self.root.winfo_screenwidth()
         screen_height = self.root.winfo_screenheight()
         
