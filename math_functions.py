@@ -1,3 +1,6 @@
+# Takes two binary matrices (two two-dimensional arrays of 1's and 0's) and an axis (0 or 1)
+# Concatenates the matrices horizontally (axis = 1) or vertically (axis = 0)
+# Returns a single matrix (a two-dimensional array of 1's and 0's)
 def concatenate_matrices(A, B, axis=1):
     if axis == 1:
         if len(A) != len(B):
@@ -20,7 +23,9 @@ def concatenate_matrices(A, B, axis=1):
 
     return concatenated_matrix
 
-
+# Takes two binary matrices (two two-dimensional arrays of 1's and 0's)
+# Matrix multiplication in a binary field (XOR instead of addition, AND for multiplication)
+# Returns a single matrix (a two-dimensional array of 1's and 0's)
 def multiply_binary_matrices(A, B):
     if len(A[0]) != len(B):
         raise ValueError("Number of columns of A must be equal to number of rows of B")
@@ -34,7 +39,9 @@ def multiply_binary_matrices(A, B):
 
     return result
 
-
+# Takes two binary vectors of equal length (two arrays of 1's and 0's)
+# Vector addition in a binary field (XOR)
+# Returns a single vector (an array of 1's and 0's)
 def add_binary_vectors(A, B):
     if len(A) != len(B):
         raise ValueError("Length of vector A must be equal to the length of vector B")
@@ -46,6 +53,8 @@ def add_binary_vectors(A, B):
     
     return result
 
-
+# Takes a binary vector (an array of 1's and 0's)
+# Sums up all the 1's in the vector
+# Returns the Hamming weight of the vector (int)
 def get_vector_weight(vector):
     return sum(vector)

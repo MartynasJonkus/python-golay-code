@@ -1,7 +1,10 @@
-from PIL import Image
 from math_functions import multiply_binary_matrices
 from matrices import get_G
 
+# Takes a 12-bit binary message (string)
+# Converts message to a 12-bit binary vector (list of 1's and 0's)
+# Encodes the message by multiplying it with the generator matrix G
+# Returns the encoded 24-bit binary message (string)
 def encode_word(message):
     if len(message) != 12 or any(bit not in '01' for bit in message):
         raise ValueError("Input message must be a 12-bit binary string.")
@@ -15,22 +18,30 @@ def encode_word(message):
 
     return encoded_message
 
+# Takes a block of text (string)
+# Converts the text to binary and pads it to be a multiple of 12 bits
+# Breaks the binary text into 12-bit chunks
+# Encodes each chunk using the encode_word function
+# Returns the original chunks (array of strings of 1's and 0's),
+#   encoded chunks (array of strings of 1's and 0's)
+#   and the number of padding bits (int)
 def encode_text(text):
-    # Convert the text into binary (using ASCII encoding)
     binary_text = ''.join(format(ord(c), '08b') for c in text)
 
-    # Ensure the length is a multiple of 12 by padding
     padding_bits = (12 - len(binary_text) % 12) % 12
     padded_binary_text = binary_text + '0' * padding_bits
 
-    # Break the binary text into 12-bit chunks
     chunks = [padded_binary_text[i:i+12] for i in range(0, len(padded_binary_text), 12)]
 
-    # Encode each chunk
     encoded_chunks = [encode_word(chunk) for chunk in chunks]
 
     return chunks, encoded_chunks, padding_bits
 
+# Takes an image file path (string)
+# Returns the image pixel data (array of strings of 1's and 0's),
+#   encoded pixel data (array of strings of 1's and 0's),
+#   BMP header info (string of 1's and 0's),
+#   and padding bits (int)
 def encode_image(image_path):
     with open(image_path, 'rb') as f:
         # Read the initial 14 bytes of the BMP header (File Header)
@@ -43,7 +54,7 @@ def encode_image(image_path):
         total_header_size = 14 + dib_header_size
         f.seek(0)
         
-        # Read the full header based on the calculated size
+        # Read the full header based on the calculated size and convert to binary
         bmp_header = f.read(total_header_size)
         bmp_header_info = ''.join(f'{byte:08b}' for byte in bmp_header)
         
@@ -59,5 +70,4 @@ def encode_image(image_path):
     pixel_chunks = [padded_pixel_data[i:i+12] for i in range(0, len(padded_pixel_data), 12)]
     encoded_pixel_chunks = [encode_word(chunk) for chunk in pixel_chunks]
     
-    # Return the header and pixel data as bit arrays, along with padding bits
     return pixel_chunks, encoded_pixel_chunks, bmp_header_info, padding_bits

@@ -6,39 +6,36 @@ from screens.image_scenario import ImageScreen
 
 class ChannelApp:
     def __init__(self, root):
+        # Initial screen setup
         self.root = root
         self.root.title("Golay code simulation")
-        self.root.geometry("800x600")  # Set the initial window size
-        self.root.resizable(False, False)  # Make the window size fixed (not resizable)
+        self.root.geometry("920x700")
+        self.root.resizable(False, False)
 
         # Calculate the position to center the window on the screen
-        window_width = 800
+        window_width = 920
         window_height = 700
         screen_width = self.root.winfo_screenwidth()
         screen_height = self.root.winfo_screenheight()
-        
-        # Calculate the x and y coordinates to center the window
         position_top = (screen_height // 2) - (window_height // 2)
         position_right = (screen_width // 2) - (window_width // 2)
-
-        # Set the window position
         self.root.geometry(f'{window_width}x{window_height}+{position_right}+{position_top}')
 
         # Define style for the notebook and tabs
         style = ttk.Style()
-        style.configure("TNotebook", tabposition="n")  # Position tabs at the top
+        style.configure("TNotebook", tabposition="n")
         style.configure(
             "TNotebook.Tab",
-            padding=[20, 10],         # Add more padding around the tab text
+            padding=[20, 10],
             font=("Arial", 12, "bold"),
-            background="#d3d3d3",     # Light background for unselected tabs
-            foreground="black",       # Text color for unselected tabs
-            anchor="center"           # Center-align text
+            background="#d3d3d3",
+            foreground="black",
+            anchor="center"
         )
         style.map(
             "TNotebook.Tab",
-            background=[("selected", "#2E8B57"), ("!selected", "#d3d3d3")],  # Dark green for selected
-            foreground=[("selected", "black"), ("!selected", "black")]       # White text for selected
+            background=[("selected", "#2E8B57"), ("!selected", "#d3d3d3")],
+            foreground=[("selected", "black"), ("!selected", "black")]
         )
 
         # Create a notebook widget
@@ -58,11 +55,11 @@ class ChannelApp:
         self.update_tab_widths()
         self.root.bind("<Configure>", self.update_tab_widths)
 
+    # If the screen is set to resizeable, automatically adjusts tab widths to fill the width of the screen
     def update_tab_widths(self, event=None):
-        # Calculate equal width for each tab based on the current window width
         total_width = self.notebook.winfo_width()
         num_tabs = len(self.notebook.tabs())
-        tab_width = max(1, total_width // num_tabs)  # Prevent zero width
+        tab_width = max(1, total_width // num_tabs)
         style = ttk.Style()
         style.configure("TNotebook.Tab", width=tab_width)
 
