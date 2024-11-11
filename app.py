@@ -1,6 +1,6 @@
 import tkinter as tk
 from tkinter import ttk
-from screens.simple_scenario import MainScreen
+from screens.main_scenario import MainScreen
 from screens.text_scenario import TextScreen
 from screens.image_scenario import ImageScreen
 
