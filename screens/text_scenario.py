@@ -13,13 +13,13 @@ class TextScreen(ttk.Frame):
         self.columnconfigure(1, weight=1)
 
         # Column 1
-        text_label = tk.Label(self, text="Enter Text:", font=("Arial", 12))
+        text_label = tk.Label(self, text="Enter text:", font=("Arial", 12))
         text_label.grid(row=0, column=0, padx=10, pady=5)
 
         self.text_input = tk.Text(self, width=40, height=10, wrap="word")
         self.text_input.grid(row=1, column=0, padx=10, pady=5)
 
-        prob_label = tk.Label(self, text="Corruption Probability", font=("Arial", 12))
+        prob_label = tk.Label(self, text="Corruption probability", font=("Arial", 12))
         prob_label.grid(row=2, column=0, padx=10, pady=5)
 
         self.prob_entry = tk.Entry(self, width=20)
@@ -32,13 +32,13 @@ class TextScreen(ttk.Frame):
         transmit_button.grid(row=4, column=0, pady=0, padx=10)
 
         # Column 2
-        direct_label = tk.Label(self, text="Distorted Text (No Encoding)", font=("Arial", 12), anchor="w")
+        direct_label = tk.Label(self, text="Distorted text (no encoding)", font=("Arial", 12), anchor="w")
         direct_label.grid(row=0, column=1, padx=10, pady=5)
 
         self.direct_output = tk.Text(self, width=40, height=10, wrap="word", state="disabled")
         self.direct_output.grid(row=1, column=1, padx=10, pady=5)
 
-        coded_label = tk.Label(self, text="Distorted Text (With Encoding)", font=("Arial", 12), anchor="w")
+        coded_label = tk.Label(self, text="Distorted text (with encoding)", font=("Arial", 12), anchor="w")
         coded_label.grid(row=2, column=1, padx=10, pady=5)
 
         self.coded_output = tk.Text(self, width=40, height=10, wrap="word", state="disabled")

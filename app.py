@@ -10,7 +10,7 @@ class ChannelApp:
         self.root = root
         self.root.title("Golay code simulation")
         self.root.geometry("920x700")
-        self.root.resizable(False, False)
+        self.root.resizable(True, True)
 
         # Calculate the position to center the window on the screen
         window_width = 920

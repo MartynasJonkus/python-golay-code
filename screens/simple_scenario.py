@@ -9,13 +9,13 @@ class MainScreen(ttk.Frame):
         super().__init__(parent, *args, **kwargs)
 
         # Column 1
-        binary_label = tk.Label(self, text="Binary String", font=("Arial", 12))
+        binary_label = tk.Label(self, text="Binary string", font=("Arial", 12))
         binary_label.grid(row=0, column=0, padx=10, pady=5, sticky="ew")
 
         self.binary_input_entry = tk.Entry(self, width=20)
         self.binary_input_entry.grid(row=1, column=0, padx=10, pady=5)
 
-        prob_label = tk.Label(self, text="Corruption Probability", font=("Arial", 12))
+        prob_label = tk.Label(self, text="Corruption probability", font=("Arial", 12))
         prob_label.grid(row=2, column=0, padx=10, pady=5, sticky="ew")
 
         self.prob_entry = tk.Entry(self, width=20)
@@ -28,7 +28,7 @@ class MainScreen(ttk.Frame):
         input_clarification_label.grid(row=5, column=0, padx=10, pady=5)
 
         # Column 2
-        encoded_label = tk.Label(self, text="Encoded Output", font=("Arial", 12))
+        encoded_label = tk.Label(self, text="Encoded output", font=("Arial", 12))
         encoded_label.grid(row=2, column=1, padx=10, pady=5, sticky="ew")
 
         self.encoded_text = tk.Text(self, width=30, height=1, state="disabled")
@@ -38,7 +38,7 @@ class MainScreen(ttk.Frame):
         distort_button.grid(row=4, column=1, padx=10, pady=10)
 
         # Column 3
-        distorted_label = tk.Label(self, text="Distorted Output (Editable)", font=("Arial", 12))
+        distorted_label = tk.Label(self, text="Distorted output (editable)", font=("Arial", 12))
         distorted_label.grid(row=2, column=2, padx=10, pady=5, sticky="ew")
 
         self.distorted_text = tk.Text(self, width=30, height=1)
@@ -52,7 +52,7 @@ class MainScreen(ttk.Frame):
         self.difference_count_label.grid(row=5, column=2, padx=10, pady=5)
 
         # Column 4
-        decoded_label = tk.Label(self, text="Decoded Output", font=("Arial", 12))
+        decoded_label = tk.Label(self, text="Decoded output", font=("Arial", 12))
         decoded_label.grid(row=2, column=3, padx=10, pady=5, sticky="ew")
 
         self.decoded_output_entry = tk.Entry(self, width=30, state="readonly")

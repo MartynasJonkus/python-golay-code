@@ -10,7 +10,7 @@ class ImageScreen(ttk.Frame):
     def __init__(self, parent, *args, **kwargs):
         super().__init__(parent, *args, **kwargs)
 
-        # Set up left and right columns (50% width each)
+        # Set up left and right columns
         self.columnconfigure(0, weight=1)
         self.columnconfigure(1, weight=1)
 
@@ -18,35 +18,38 @@ class ImageScreen(ttk.Frame):
         left_column = tk.Frame(self)
         left_column.grid(row=0, column=0, padx=10, pady=10, sticky="nsew")
 
-        self.upload_button = tk.Button(left_column, text="Upload BMP Image", command=self.upload_image)
+        self.upload_button = tk.Button(left_column, text="Upload BMP image", command=self.upload_image)
         self.upload_button.pack(pady=5)
 
-        self.original_label = tk.Label(left_column, text="Original Image:")
+        self.original_label = tk.Label(left_column, text="Original image", font=("Arial", 12))
         self.original_label.pack(pady=5)
         self.original_image_label = tk.Label(left_column)
         self.original_image_label.pack(pady=5)
 
-        self.probability_label = tk.Label(left_column, text="Enter Distortion Probability:")
+        self.probability_label = tk.Label(left_column, text="Corruption probability", font=("Arial", 12))
         self.probability_label.pack(pady=5)
         self.probability_entry = tk.Entry(left_column)
         self.probability_entry.pack(pady=5)
 
-        self.transmit_button = tk.Button(left_column, text="Transmit Image", command=self.transmit_image)
+        self.transmit_button = tk.Button(left_column, text="Transmit image", command=self.transmit_image)
         self.transmit_button.pack(pady=5)
+
+        self.transmit_clarification = tk.Label(left_column, text="Probability range [0.0, 1.0]\nEncoding/decoding might take 1 - 2 minutes\n or more depending on image size", font=("Arial", 10), fg="gray")
+        self.transmit_clarification.pack(pady=5)
 
         # Right Column
         right_column = tk.Frame(self)
         right_column.grid(row=0, column=1, padx=10, pady=10, sticky="nsew")
 
-        self.processed_label = tk.Label(right_column, text="Processed Image (With Encoding/Decoding):")
-        self.processed_label.pack(pady=5)
-        self.processed_image_label = tk.Label(right_column)
-        self.processed_image_label.pack(pady=5)
-
-        self.direct_label = tk.Label(right_column, text="Processed Image (Without Encoding):")
+        self.direct_label = tk.Label(right_column, text="Processed image (no encoding)", font=("Arial", 12))
         self.direct_label.pack(pady=5)
         self.direct_image_label = tk.Label(right_column)
         self.direct_image_label.pack(pady=5)
+
+        self.processed_label = tk.Label(right_column, text="Processed image (with encoding)", font=("Arial", 12))
+        self.processed_label.pack(pady=5)
+        self.processed_image_label = tk.Label(right_column)
+        self.processed_image_label.pack(pady=5)
 
         # Variables to store image data
         self.image_path = None
